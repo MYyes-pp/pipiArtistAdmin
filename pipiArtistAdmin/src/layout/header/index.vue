@@ -1,17 +1,19 @@
 <template>
-  <div class="w-full  h-[60px] flex items-center shadow-md dark:bg-slate-800">
+  <div class="w-full  h-[60px] flex items-center shadow-md dark:bg-slate-800 dark:shadow-orange-50">
     <a class="flex ml-2 cursor-pointer" href="https://github.com/MYyes-pp/pipiArtistAdmin/tree/main/pipiArtistAdmin" target="_blank">
       <div>
         <SvgIcon name="logo" height="2em" width="2em" v-if="!isDark"/>
         <SvgIcon name="logoDark" height="2em" width="2em" v-else/>
       </div>
-      <div class="title text-lg font-medium text-slate-700 dark:text-slate-200">ArtistAdmin</div>
+      <div class="title text-lg font-medium text-slate-700 dark:text-slate-200">pip ArtistAdmin</div>
     </a>
-    <div class="collapseIcon cursor-pointer" @click="()=>collapse=!collapse">
+    <div class="collapseIcon cursor-pointer" @click="emits('changeCollapse')">
       <i-ep-expand  v-if="collapse" class="text-gray-700 text-[16px] ml-2  dark:text-slate-200" />
       <i-ep-fold v-else class="text-gray-700 text-[16px] ml-2  dark:text-slate-200" />
     </div>
-    <div class="breadCrumbs flex-1"></div>
+    <div class="breadCrumbs flex-1 ml-2">
+      <Breadcrumb />
+    </div>
     <div class="operation w-1/5 flex items-center justify-around mx-2">
       <div class="search text-gray-500 text-[16px]  dark:text-slate-200">
         <i-ep-search/>
@@ -39,7 +41,7 @@
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -47,11 +49,12 @@
 <script setup>
 import { ref } from "vue"
 import { useDark, useToggle } from '@vueuse/core'
+import Breadcrumb from '../breadcrumb/index.vue'
 import sun from './sun.vue'
 import moon from './moon.vue'
 import {getLocalStorage} from '@/utils/index.js'
 
-const collapse = ref(false)
+const emits=defineEmits(['changeCollapse'])
 const isDark = useDark({      
   storageKey: 'useDarkKEY',
   valueDark: 'dark',
